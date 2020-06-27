@@ -1,0 +1,11 @@
+nim-beacon-chain/build
+nim-beacon-chain/vendor
+nim-beacon-chain/.idea
+nim-beacon-chain/nimcache
+nim-beacon-chain/local_testnet_data
+*.so
+*.dylib
+*.a
+*.la
+*.exe
+*.dll

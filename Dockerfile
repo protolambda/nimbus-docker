@@ -11,9 +11,7 @@ ADD config.yaml /root/config.yaml
 ADD nim-beacon-chain /root/nim-beacon-chain
 
 RUN cd /root \
- && ls -l \
  && cd nim-beacon-chain \
- && ls -l \
  && { make &>/dev/null || true; } \
  && make -j$(nproc) update \
  && make deps
