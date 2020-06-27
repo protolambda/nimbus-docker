@@ -6,4 +6,4 @@ Adapted from the Nimbus Dockerfile.
 
 *Experimental software, use at own risk*
 
-Clone/link your version of https://github.com/status-im/nim-beacon-chain into `nim-beacon-chain into` to get started.
+Clone/link your version of https://github.com/status-im/nim-beacon-chain into `nim-beacon-chain` directory to get started.
