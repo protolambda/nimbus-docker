@@ -1,7 +1,10 @@
+nim-beacon-chain/.idea
+
+# Remove ignored paths below if you prefer local cache for build:
 nim-beacon-chain/build
 nim-beacon-chain/vendor
-nim-beacon-chain/.idea
 nim-beacon-chain/nimcache
+
 nim-beacon-chain/local_testnet_data
 *.so
 *.dylib

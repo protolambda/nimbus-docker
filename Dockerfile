@@ -12,16 +12,16 @@ ADD nim-beacon-chain /root/nim-beacon-chain
 
 RUN cd /root \
  && cd nim-beacon-chain \
- && { make &>/dev/null || true; } \
- && make -j$(nproc) update \
- && make deps
+ && { make V=1 || true; } \
+ && make V=1 -j$(nproc) update \
+ && make V=1 deps
 
 ARG NETWORK_NIM_FLAGS
 ARG MARCH_NIM_FLAGS
 
 RUN cd /root/nim-beacon-chain \
- && make -j$(nproc) update \
- && make LOG_LEVEL=TRACE NIMFLAGS="-d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
+ && make V=1 -j$(nproc) update \
+ && make V=1 LOG_LEVEL=TRACE NIMFLAGS="-d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
 
 # --------------------------------- #
 # Starting new image to reduce size #
