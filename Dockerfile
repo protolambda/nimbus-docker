@@ -23,7 +23,7 @@ ARG MARCH_NIM_FLAGS
 
 RUN cd /root/nim-beacon-chain \
  && make -j$(nproc) update \
- && make LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
+ && make LOG_LEVEL=TRACE NIMFLAGS="-d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
 
 # --------------------------------- #
 # Starting new image to reduce size #
