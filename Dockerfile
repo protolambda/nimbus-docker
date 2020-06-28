@@ -19,9 +19,10 @@ RUN cd /root \
 ARG NETWORK_NIM_FLAGS
 ARG MARCH_NIM_FLAGS
 
+# Note: -d:insecure allows the insecure http server to run for API support, but it's buggy and insecure.
 RUN cd /root/nim-beacon-chain \
  && make V=1 -j$(nproc) update \
- && make V=1 LOG_LEVEL=TRACE NIMFLAGS="-d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
+ && make V=1 LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
 
 # --------------------------------- #
 # Starting new image to reduce size #
