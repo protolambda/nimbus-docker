@@ -3,26 +3,21 @@ FROM debian:bullseye-slim AS build
 SHELL ["/bin/bash", "-c"]
 
 RUN apt-get -qq update \
- && apt-get -qq -y install build-essential make wget libpcre3-dev git &>/dev/null \
+ && apt-get -qq -y install build-essential libpcre3-dev git &>/dev/null \
  && apt-get -qq clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD config.yaml /root/config.yaml
+# TODO: use volumes or bind-mounts instead
 ADD nim-beacon-chain /root/nim-beacon-chain
 
-RUN cd /root \
- && cd nim-beacon-chain \
- && { make V=1 || true; } \
- && make V=1 -j$(nproc) update \
- && make V=1 deps
-
-ARG NETWORK_NIM_FLAGS
-ARG MARCH_NIM_FLAGS
+# It's up to you to run `git pull; make update` in "nim-beacon-chain", outside the container,
+# preferably in the "devel" branch.
 
 # Note: -d:insecure allows the insecure http server to run for API support, but it's buggy and insecure.
+# We need to run `make update` again because some absolute paths changed.
 RUN cd /root/nim-beacon-chain \
- && make V=1 -j$(nproc) update \
- && make V=1 LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x --verbosity:1 --hints:off -d:usePcreHeader --passL:\"-lpcre\" -d:release --d:const_preset=/root/config.yaml ${NETWORK_NIM_FLAGS} ${MARCH_NIM_FLAGS}" beacon_node
+ && make -j$(nproc) update \
+ && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure -d:testnet_servers_image" SCRIPT_PARAMS="--skipGoerliKey --writeLogFile=false --buildOnly" altona
 
 # --------------------------------- #
 # Starting new image to reduce size #
@@ -37,7 +32,9 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # "COPY" creates new image layers, so we cram all we can into one command
-COPY --from=build /root/nim-beacon-chain/build/beacon_node /usr/bin/
+COPY --from=build /root/nim-beacon-chain/build/beacon_node_shared_altona_0 /usr/bin/
 
-ENTRYPOINT ["/usr/bin/beacon_node"]
+STOPSIGNAL SIGINT
+
+ENTRYPOINT ["/usr/bin/beacon_node_shared_altona_0"]
 
