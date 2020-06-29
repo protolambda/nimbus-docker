@@ -27,3 +27,5 @@ docker builder prune -f
 docker image prune -f
 ```
 
+Similarly, you can build `validator.Dockerfile` for a validator client (super experimental).
+
