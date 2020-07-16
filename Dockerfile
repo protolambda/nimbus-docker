@@ -17,7 +17,11 @@ ADD nim-beacon-chain /root/nim-beacon-chain
 # We need to run `make update` again because some absolute paths changed.
 RUN cd /root/nim-beacon-chain \
  && make -j$(nproc) update \
- && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure -d:testnet_servers_image" SCRIPT_PARAMS="--skipGoerliKey --writeLogFile=false --buildOnly" altona
+ && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" beacon_node \
+ && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" validator_client
+
+# alternatively:
+# && make -j$(nproc) LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml" validator_client
 
 # --------------------------------- #
 # Starting new image to reduce size #
@@ -32,9 +36,9 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # "COPY" creates new image layers, so we cram all we can into one command
-COPY --from=build /root/nim-beacon-chain/build/beacon_node_shared_altona_0 /usr/bin/
+COPY --from=build /root/nim-beacon-chain/build/beacon_node /usr/bin/
+COPY --from=build /root/nim-beacon-chain/build/validator_client /usr/bin/
 
 STOPSIGNAL SIGINT
 
-ENTRYPOINT ["/usr/bin/beacon_node_shared_altona_0"]
-
+# Caller can use either 'beacon_node' or 'validator_client' binary
