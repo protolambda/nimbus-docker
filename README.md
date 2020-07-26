@@ -18,17 +18,7 @@ git checkout devel
 git pull
 make -j8 update
 cd ..
-DOCKER_BUILDKIT=1 docker build -t nimbus-altona --progress=plain .
-docker run --rm --name nimbus-bn nimbus-altona beacon_node --network=altona <various options>
-docker run --rm --name nimbus-vc nimbus-altona validator_client <various options>
-
-# stopping it from another terminal
-docker stop nimbus-bn
-docker stop nimbus-vc
-
-# cleanup
-docker builder prune -f
-docker image prune -f
+docker build -t protolambda/nim_beacon_node:latest --progress=plain .
 ```
 
 
