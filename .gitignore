@@ -1,0 +1,4 @@
+nim-beacon-chain
+
+# Test/util scripts
+*.sh
