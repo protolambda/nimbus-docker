@@ -18,7 +18,7 @@ git checkout devel
 git pull
 make -j8 update
 cd ..
-docker build -t protolambda/nim_beacon_node:latest --progress=plain .
+docker build -t protolambda/nimbus:latest .
 ```
 
 
