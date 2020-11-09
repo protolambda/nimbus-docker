@@ -1,4 +1,4 @@
-nim-beacon-chain
+nimbus-eth2
 
 # Test/util scripts
 *.sh

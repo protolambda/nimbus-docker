@@ -8,6 +8,8 @@ Adapted from the Nimbus Dockerfile.
 
 *Experimental software, use at own risk*
 
+Git clone nimbus into `./nimbus-eth2`
+
 Example usage:
 
 ```bash
