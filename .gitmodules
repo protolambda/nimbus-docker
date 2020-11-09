@@ -1,0 +1,4 @@
+[submodule "nimbus-eth2"]
+	path = nimbus-eth2
+	url = https://github.com/status-im/nimbus-eth2.git
+	branch = devel

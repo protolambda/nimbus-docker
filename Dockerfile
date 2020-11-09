@@ -39,6 +39,9 @@ RUN apt-get -qq update \
 COPY --from=build /root/nim-beacon-chain/build/beacon_node /usr/bin/
 COPY --from=build /root/nim-beacon-chain/build/validator_client /usr/bin/
 
+RUN mkdir /data
+ADD toledo_preset.json /data/toledo_preset.json
+
 STOPSIGNAL SIGINT
 
 # Caller can use either 'beacon_node' or 'validator_client' binary
