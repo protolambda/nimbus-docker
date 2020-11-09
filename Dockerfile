@@ -8,14 +8,14 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # TODO: use volumes or bind-mounts instead
-ADD nim-beacon-chain /root/nim-beacon-chain
+ADD nimbus-eth2 /root/nimbus-eth2
 
-# It's up to you to run `git pull; make update` in "nim-beacon-chain", outside the container,
+# It's up to you to run `git pull; make update` in "nimbus-eth2", outside the container,
 # preferably in the "devel" branch.
 
 # Note: -d:insecure allows the insecure http server to run for API support, but it's buggy and insecure.
 # We need to run `make update` again because some absolute paths changed.
-RUN cd /root/nim-beacon-chain \
+RUN cd /root/nimbus-eth2 \
  && make -j$(nproc) update \
  && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" beacon_node \
  && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" validator_client
@@ -36,8 +36,8 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # "COPY" creates new image layers, so we cram all we can into one command
-COPY --from=build /root/nim-beacon-chain/build/beacon_node /usr/bin/
-COPY --from=build /root/nim-beacon-chain/build/validator_client /usr/bin/
+COPY --from=build /root/nimbus-eth2/build/beacon_node /usr/bin/
+COPY --from=build /root/nimbus-eth2/build/validator_client /usr/bin/
 
 RUN mkdir /data
 ADD toledo_preset.json /data/toledo_preset.json
