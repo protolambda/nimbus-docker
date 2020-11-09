@@ -41,7 +41,6 @@ COPY --from=build /root/nimbus-eth2/build/beacon_node /usr/bin/
 COPY --from=build /root/nimbus-eth2/build/validator_client /usr/bin/
 
 RUN mkdir /data
-ADD toledo_preset.json /data/toledo_preset.json
 
 STOPSIGNAL SIGINT
 

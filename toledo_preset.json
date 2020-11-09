@@ -1,9 +1,0 @@
-{
-  "runtimePreset": {
-    "MIN_GENESIS_TIME": 1605009600,
-    "GENESIS_DELAY": 86400,
-    "GENESIS_FORK_VERSION": "0x00701ed0"
-  },
-  "depositContractAddress": "0x47709dC7a8c18688a1f051761fc34ac253970bC0",
-  "depositContractDeployedAt": "0x2b093a40f4e1e8ede6fc049abf4ae87cb424ffacca2e759aa05cfd1d3881ec99"
-}
