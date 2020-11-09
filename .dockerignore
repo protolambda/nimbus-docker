@@ -1,7 +1,7 @@
 nimbus-eth2/.idea
 
 # Remove ignored paths below if you prefer local cache for build:
-nimbus-eth2/build
+#nimbus-eth2/build
 #nimbus-eth2/vendor
 #nimbus-eth2/nimcache
 

@@ -1,7 +1,8 @@
-FROM debian:bullseye-slim AS build
+FROM debian:buster-slim AS build
 
 SHELL ["/bin/bash", "-c"]
 
+# use gcc 10.2.0-15 or older, see https://github.com/status-im/nimbus-eth2/issues/1970#issuecomment-723736321
 RUN apt-get -qq update \
  && apt-get -qq -y install build-essential libpcre3-dev git &>/dev/null \
  && apt-get -qq clean \
@@ -26,7 +27,7 @@ RUN cd /root/nimbus-eth2 \
 # --------------------------------- #
 # Starting new image to reduce size #
 # --------------------------------- #
-FROM debian:bullseye-slim as deploy
+FROM debian:buster-slim as deploy
 
 SHELL ["/bin/bash", "-c"]
 
