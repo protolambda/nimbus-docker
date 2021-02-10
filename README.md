@@ -14,7 +14,7 @@ Example usage:
 
 ```bash
 cd nimbus-eth2
-git checkout devel
+git checkout stable
 git pull
 make -j8 update
 cd ..

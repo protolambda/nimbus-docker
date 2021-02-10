@@ -18,11 +18,11 @@ ADD nimbus-eth2 /root/nimbus-eth2
 # We need to run `make update` again because some absolute paths changed.
 RUN cd /root/nimbus-eth2 \
  && make -j$(nproc) update \
- && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" beacon_node \
- && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" validator_client
+ && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" nimbus_beacon_node \
+ && make -j$(nproc) LOG_LEVEL="TRACE" NIMFLAGS="-d:insecure" nimbus_validator_client
 
 # alternatively:
-# && make -j$(nproc) LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml" validator_client
+# && make -j$(nproc) LOG_LEVEL=TRACE NIMFLAGS="-d:insecure -d:ETH2_SPEC=v0.12.1 -d:BLS_ETH2_SPEC=v0.12.x -d:const_preset=/root/config.yaml" nimbus_validator_client
 
 # --------------------------------- #
 # Starting new image to reduce size #
@@ -37,8 +37,8 @@ RUN apt-get -qq update \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # "COPY" creates new image layers, so we cram all we can into one command
-COPY --from=build /root/nimbus-eth2/build/beacon_node /usr/bin/
-COPY --from=build /root/nimbus-eth2/build/validator_client /usr/bin/
+COPY --from=build /root/nimbus-eth2/build/nimbus_beacon_node /usr/bin/beacon_node
+COPY --from=build /root/nimbus-eth2/build/nimbus_validator_client /usr/bin/validator_client
 
 RUN mkdir /data
 
